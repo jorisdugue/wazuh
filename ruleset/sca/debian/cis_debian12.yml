@@ -781,7 +781,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L "%n %a %u %U %g %G" /boot/grub/grub.cfg -> r:0 root 0 root && r:600'
+      - 'c:stat -c "%n %a %u %U %g %G" /boot/grub/grub.cfg -> r:600 0 root 0 root'
 
   # 1.5.1 Ensure address space layout randomization is enabled. (Automated) - Not Implemented
   # 1.5.2 Ensure ptrace_scope is restricted. (Automated) - Not Implemented
@@ -853,7 +853,7 @@ checks:
     condition: any
     rules:
       - "not f:/etc/motd"
-      - 'c:stat -L "%n %a %u %U %g %G" /etc/motd -> r:0 root 0 root && r:644|640|600|400'
+      - 'c:stat -c "%a %u %U %g %G" /etc/issue.net -> r:(644|640|600|400) 0 root 0 root'
 
   # 1.6.5 Ensure access to /etc/issue is configured. (Automated)
   - id: 33052
@@ -877,7 +877,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L "%n %a %u %U %g %G" /etc/issue -> r:0 root 0 root && r:644|640|600|400'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/issue -> r:0 root 0 root && r:644|640|600|400'
 
   # 1.6.6 Ensure access to /etc/issue.net is configured. (Automated)
   - id: 33053
@@ -901,7 +901,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L "%n %a %u %U %g %G" /etc/issue.net -> r:0 root 0 root && r:644|640|600|400'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/issue.net -> r:0 root 0 root && r:644|640|600|400'
 
   # 1.7.1 Ensure GDM is removed. (Automated)
   - id: 33054
@@ -1671,8 +1671,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/crontab -> r:^Access: \(0600/-rw-------\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$'
-
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/crontab -> r:600 0 root 0 root'
   # 2.4.1.3 Ensure permissions on /etc/cron.hourly are configured. (Automated)
   - id: 33100
     title: "Ensure permissions on /etc/cron.hourly are configured."
@@ -1695,7 +1694,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/cron.hourly -> r:^Access: \(0700/drwx------\)\s*Uid: \(\s*0/\s*root\)\s*Gid: \(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/cron.hourly -> r:700 0 root 0 root'
 
   # 2.4.1.4 Ensure permissions on /etc/cron.daily are configured. (Automated)
   - id: 33101
@@ -1719,7 +1718,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/cron.daily -> r:^Access: \(0700/drwx------\)\s*Uid: \(\s*0/\s*root\)\s*Gid: \(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/cron.daily -> r:700 0 root 0 root'
 
   # 2.4.1.5 Ensure permissions on /etc/cron.weekly are configured. (Automated)
   - id: 33102
@@ -1743,7 +1742,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/cron.weekly -> r:^Access: \(0700/drwx------\)\s*Uid: \(\s*0/\s*root\)\s*Gid: \(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/cron.weekly -> r:700 0 root 0 root'
 
   # 2.4.1.6 Ensure permissions on /etc/cron.monthly are configured. (Automated)
   - id: 33103
@@ -1767,7 +1766,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/cron.monthly -> r:^Access: \(0700/drwx------\)\s*Uid: \(\s*0/\s*root\)\s*Gid: \(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/cron.monthly -> r:700 0 root 0 root'
 
   # 2.4.1.7 Ensure permissions on /etc/cron.d are configured. (Automated)
   - id: 33104
@@ -1791,7 +1790,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/cron.d -> r:^Access: \(0700/drwx------\)\s*Uid: \(\s*0/\s*root\)\s*Gid: \(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/cron.d -> r:700 0 root 0 root'
 
   # 2.4.1.8 Ensure crontab is restricted to authorized users. (Automated) - Not Implemented
   # 2.4.2.1 Ensure at is restricted to authorized users. (Automated) - Not Implemented
@@ -2989,7 +2988,8 @@ checks:
       - soc_2: ["CC6.1"]
     condition: all
     rules:
-      - 'f:/etc/pam.d/common-password -> r:password\s*\t*requisite\s*\t*pam_pwquality.so\s*\t*retry=(d+)'
+      - 'c:grep -Pq "^password\s+requisite\s+pam_pwquality\.so\s+retry=\d+$" /etc/pam.d/common-password; echo $?> -> r:^0$'
+     # - 'f:/etc/pam.d/common-password -> r:password\s*\t*requisite\s*\t*pam_pwquality.so\s*\t*retry=(d+)'
 
   # 5.3.2.4 Ensure pam_pwhistory module is enabled. (Automated)
   - id: 33189
@@ -3519,10 +3519,10 @@ checks:
       - pci_dss_v3.2.1: ["3.4", "3.4.1", "8.2.1"]
       - pci_dss_v4.0: ["3.1.1", "3.3.2", "3.3.3", "3.5.1", "3.5.1.2", "3.5.1.3", "8.3.2"]
       - soc_2: ["CC6.1"]
-    condition: all
+    condition: any
     rules:
-      - 'f:/etc/login.defs -> r:ENCRYPT_METHOD\s*\t*SHA512 | r:ENCRYPT_METHOD\s*\t*YESCRYPT'
-
+      - 'f:/etc/login.defs -> r:^ENCRYPT_METHOD\s+SHA512$'
+      - 'f:/etc/login.defs -> r:^ENCRYPT_METHOD\s+YESCRYPT$'
   # 5.4.1.5 Ensure inactive password lock is configured. (Automated)
   - id: 33212
     title: "Ensure inactive password lock is configured."
@@ -3562,7 +3562,7 @@ checks:
       - mitre_techniques: ["T1548"]
     condition: all
     rules:
-      - "f:/etc/passwd -> r:^root:x:0:0"
+      - "f:/etc/passwd -> r:^root:x:0:"
 
   # 5.4.2.2 Ensure root is the only GID 0 account. (Automated)
   - id: 33215
@@ -3610,7 +3610,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - "f:/etc/group -> r:^root:x:0:0"
+      - "f:/etc/group -> r:^root:x:0:"
 
   # 5.4.2.4 Ensure root account access is controlled. (Automated)
   - id: 33217
@@ -3633,9 +3633,10 @@ checks:
       - pci_dss_v3.2.1: ["7.1", "7.1.1", "7.1.2", "7.1.3"]
       - pci_dss_v4.0: ["1.3.1", "7.1"]
       - soc_2: ["CC5.2", "CC6.1"]
-    condition: all
+    condition: any
     rules:
-      - "c:passwd -S root -> r:Password is status: P | r:Password is status: L"
+      - 'c:passwd -S root -> r:^root P '
+      - 'c:passwd -S root -> r:^root L '
 
   # 5.4.2.5 Ensure root path integrity. (Automated) - Not Implemented
   # 5.4.2.6 Ensure root user umask is configured. (Automated) - Not Implemented
@@ -4027,7 +4028,7 @@ checks:
       - pci_dss_v4.0: ["10.2.1", "10.2.1.1", "10.2.1.2", "10.2.1.3", "10.2.1.4", "10.2.1.5", "10.2.1.6", "10.2.1.7", "10.2.2", "5.3.4", "6.4.1", "6.4.2"]
     condition: all
     rules:
-      - 'not f:/etc/default/grub -> !r:audit_backlog_limit=\d+'
+      - 'f:/etc/default/grub -> r:audit_backlog_limit=\d+'
 
   # 6.2.2.1 Ensure audit log storage size is configured. (Automated)
   - id: 33249
@@ -4754,7 +4755,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/passwd -> r:^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/passwd -> r:644 0 root 0 root'
 
   # 7.1.2 Ensure permissions on /etc/passwd- are configured. (Automated)
   - id: 33288
@@ -4778,7 +4779,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/passwd- -> r:^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/passwd- -> r:^600 0 root 0 root$'
 
   # 7.1.3 Ensure permissions on /etc/group are configured. (Automated)
   - id: 33289
@@ -4802,7 +4803,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/group -> r:^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/group -> r:644 0 root 0 root'
 
   # 7.1.4 Ensure permissions on /etc/group- are configured. (Automated)
   - id: 33290
@@ -4826,7 +4827,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/group- -> r:^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$'
+      - 'c:stat -c "%n %a %u %U %g %G" /etc/group- -> r:644 0 root 0 root'
 
   # 7.1.5 Ensure permissions on /etc/shadow are configured. (Automated)
   - id: 33291
@@ -4850,7 +4851,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/shadow -> r:^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/shadow -> r:^640 0 root 0 root$|^640 0 root \d+ shadow$'
 
   # 7.1.6 Ensure permissions on /etc/shadow- are configured. (Automated)
   - id: 33292
@@ -4874,7 +4875,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/shadow- -> r:^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/shadow- -> r:^640 0 root 0 root$|^640 0 root \d+ shadow$'
 
   # 7.1.7 Ensure permissions on /etc/gshadow are configured. (Automated)
   - id: 33293
@@ -4898,7 +4899,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/gshadow -> r:^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/gshadow -> r:^640 0 root 0 root$|^640 0 root \d+ shadow$'
 
   # 7.1.8 Ensure permissions on /etc/gshadow- are configured. (Automated)
   - id: 33294
@@ -4922,7 +4923,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/gshadow- -> r:^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0640/-rw-r-----\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/gshadow- -> r:^640 0 root 0 root$|^640 0 root \d+ shadow$'
 
   # 7.1.9 Ensure permissions on /etc/shells are configured. (Automated)
   - id: 33295
@@ -4946,7 +4947,7 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/shells -> r:^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0644/-rw-r--r--\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/shells -> r:^644 0 root 0 root$|^644 0 root \d+ shadow$'
 
   # 7.1.10 Ensure permissions on /etc/security/opasswd are configured. (Automated)
   - id: 33296
@@ -4970,8 +4971,8 @@ checks:
       - soc_2: ["CC5.2", "CC6.1"]
     condition: all
     rules:
-      - 'c:stat -L /etc/security/opasswd -> r:^Access: \(0600/-rw-------\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0600/-rw-------\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
-      - 'c:stat -L /etc/security/opasswd.old -> r:^Access: \(0600/-rw-------\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*0/\s*root\)$|^Access: \(0600/-rw-------\)\s*Uid:\s*\(\s*0/\s*root\)\s*Gid:\s*\(\s*\d+/\s*shadow\)$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/security/opasswd -> r:^600 0 root 0 root$|^600 0 root \d+ shadow$'
+      - 'c:stat -c "%a %u %U %g %G" /etc/security/opasswd.old -> r:^600 0 root 0 root$|^600 0 root \d+ shadow$'
 
   # 7.1.11 Ensure world writable files and directories are secured. (Automated) - Not Implemented
   # 7.1.12 Ensure no files or directories without an owner and a group exist. (Automated) - Not Implemented
@@ -4999,7 +5000,7 @@ checks:
       - soc_2: ["CC6.1"]
     condition: all
     rules:
-      - 'not f:/etc/passwd -> r:^\w+:x:'
+      - 'c:grep -Ev "^[^:]+:x:" /etc/passwd -> r:^$'
 
   # 7.2.2 Ensure /etc/shadow password fields are not empty. (Automated)
   - id: 33301
